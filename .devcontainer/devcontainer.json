@@ -1,0 +1,22 @@
+{
+  "name": "Android Development (Simple)",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "redhat.java",
+        "vscjava.vscode-gradle"
+      ],
+      "settings": {
+        "java.home": "/usr/lib/jvm/java-11-openjdk-amd64"
+      }
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/simple-setup.sh",
+  "forwardPorts": [8080, 5037],
+  "remoteUser": "vscode",
+  "containerEnv": {
+    "JAVA_HOME": "/usr/lib/jvm/java-11-openjdk-amd64"
+  }
+}

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <!-- App Icon -->
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/ic_app_icon"
+        android:contentDescription="App Icon" />
+
+    <!-- App Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary_text"
+        android:layout_marginBottom="8dp" />
+
+    <!-- App Description -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Automatically answers spam calls with fax tone"
+        android:textSize="16sp"
+        android:textColor="@color/secondary_text"
+        android:gravity="center"
+        android:layout_marginBottom="48dp" />
+
+    <!-- Status Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:elevation="4dp"
+        android:radius="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Status Text -->
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ready - Toggle to activate"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Enable Switch -->
+            <Switch
+                android:id="@+id/enableSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Enable Spam Blocker"
+                android:textSize="16sp"
+                android:padding="8dp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Permissions Button -->
+    <Button
+        android:id="@+id/permissionsButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Grant Permissions"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:background="@drawable/button_background"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="24dp"
+        android:enabled="false" />
+
+    <!-- Info Section -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/info_text"
+        android:textSize="14sp"
+        android:textColor="@color/secondary_text"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp" />
+
+</LinearLayout>

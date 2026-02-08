@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <!-- This app doesn't store sensitive user data -->
+        <exclude domain="root" />
+    </cloud-backup>
+    <device-transfer>
+        <!-- Allow app settings to be transferred -->
+        <include domain="sharedpref" path="." />
+    </device-transfer>
+</data-extraction-rules>
