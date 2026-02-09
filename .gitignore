@@ -1,0 +1,5 @@
+
+# Gradle distributions (too large for GitHub)
+gradle-*/
+gradle-*.zip
+*.zip
