@@ -1,0 +1,7 @@
+#Mon Feb 09 02:02:17 GMT 2026
+base.1=/workspaces/spam-blocker-v3/app/build/intermediates/dex/debug/mergeProjectDexDebug/15/classes.dex
+path.1=15/classes.dex
+base.0=/workspaces/spam-blocker-v3/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+path.0=0/classes.dex

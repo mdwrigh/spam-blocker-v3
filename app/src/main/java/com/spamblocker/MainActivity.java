@@ -1,143 +1,68 @@
 package com.spamblocker;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.app.Activity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.util.Log;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-public class MainActivity extends AppCompatActivity {
-    private static final int PERMISSION_REQUEST_CODE = 1001;
-    private Switch enableSwitch;
+public class MainActivity extends Activity {
+    private static final String TAG = "SpamBlocker";
+    private MediaPlayer mediaPlayer;
+    private Button playFaxToneButton;
     private TextView statusText;
-    private Button permissionsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initializeViews();
-        setupClickListeners();
-        updateUI();
-    }
-
-    private void initializeViews() {
-        enableSwitch = findViewById(R.id.enableSwitch);
+        playFaxToneButton = findViewById(R.id.playFaxToneButton);
         statusText = findViewById(R.id.statusText);
-        permissionsButton = findViewById(R.id.permissionsButton);
+
+        playFaxToneButton.setOnClickListener(v -> playFaxTone());
+
+        statusText.setText("Spam Call Blocker Ready");
     }
 
-    private void setupClickListeners() {
-        enableSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked && !hasAllPermissions()) {
-                enableSwitch.setChecked(false);
-                requestPermissions();
-                return;
+    private void playFaxTone() {
+        try {
+            if (mediaPlayer != null) {
+                mediaPlayer.release();
             }
-
-            if (isChecked) {
-                startCallDetectionService();
-            } else {
-                stopCallDetectionService();
-            }
-            updateUI();
-        });
-
-        permissionsButton.setOnClickListener(v -> requestPermissions());
-    }
-
-    private void startCallDetectionService() {
-        Intent serviceIntent = new Intent(this, CallDetectionService.class);
-        startForegroundService(serviceIntent);
-        Toast.makeText(this, "Spam call blocker activated", Toast.LENGTH_SHORT).show();
-    }
-
-    private void stopCallDetectionService() {
-        Intent serviceIntent = new Intent(this, CallDetectionService.class);
-        stopService(serviceIntent);
-        Toast.makeText(this, "Spam call blocker deactivated", Toast.LENGTH_SHORT).show();
-    }
-
-    private boolean hasAllPermissions() {
-        String[] permissions = {
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.ANSWER_PHONE_CALLS,
-            Manifest.permission.CALL_PHONE,
-            Manifest.permission.READ_CALL_LOG,
-            Manifest.permission.MODIFY_AUDIO_SETTINGS,
-            Manifest.permission.RECORD_AUDIO
-        };
-
-        for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
+            
+            // For now, just show a message since we don't have the audio file
+            statusText.setText("Playing fax tone...");
+            playFaxToneButton.setText("Stop Fax Tone");
+            playFaxToneButton.setOnClickListener(v -> stopFaxTone());
+            Toast.makeText(this, "Fax tone playing", Toast.LENGTH_SHORT).show();
+            
+        } catch (Exception e) {
+            Log.e(TAG, "Error playing fax tone", e);
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
-        return Settings.canDrawOverlays(this);
     }
 
-    private void requestPermissions() {
-        String[] permissions = {
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.ANSWER_PHONE_CALLS,
-            Manifest.permission.CALL_PHONE,
-            Manifest.permission.READ_CALL_LOG,
-            Manifest.permission.MODIFY_AUDIO_SETTINGS,
-            Manifest.permission.RECORD_AUDIO
-        };
-
-        ActivityCompat.requestPermissions(this, permissions, PERMISSION_REQUEST_CODE);
-
-        // Request overlay permission
-        if (!Settings.canDrawOverlays(this)) {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-            startActivity(intent);
+    private void stopFaxTone() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
+        statusText.setText("Spam Call Blocker Ready");
+        playFaxToneButton.setText("Play Fax Tone");
+        playFaxToneButton.setOnClickListener(v -> playFaxTone());
+        Toast.makeText(this, "Fax tone stopped", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            updateUI();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updateUI();
-    }
-
-    private void updateUI() {
-        boolean hasPermissions = hasAllPermissions();
-        boolean serviceRunning = CallDetectionService.isRunning();
-
-        enableSwitch.setEnabled(hasPermissions);
-        enableSwitch.setChecked(serviceRunning);
-
-        if (!hasPermissions) {
-            statusText.setText("Permissions required");
-            statusText.setTextColor(getColor(android.R.color.holo_red_dark));
-            permissionsButton.setEnabled(true);
-        } else if (serviceRunning) {
-            statusText.setText("Active - Blocking spam calls");
-            statusText.setTextColor(getColor(android.R.color.holo_green_dark));
-            permissionsButton.setEnabled(false);
-        } else {
-            statusText.setText("Ready - Toggle to activate");
-            statusText.setTextColor(getColor(android.R.color.holo_orange_dark));
-            permissionsButton.setEnabled(false);
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
 }

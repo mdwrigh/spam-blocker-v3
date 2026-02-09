@@ -1,0 +1,8 @@
+com.spamblocker.app-pngs-0 /workspaces/spam-blocker-v3/app/build/generated/res/pngs/debug
+com.spamblocker.app-resValues-1 /workspaces/spam-blocker-v3/app/build/generated/res/resValues/debug
+com.spamblocker.app-rs-2 /workspaces/spam-blocker-v3/app/build/generated/res/rs/debug
+com.spamblocker.app-mergeDebugResources-3 /workspaces/spam-blocker-v3/app/build/intermediates/incremental/debug/mergeDebugResources/merged.dir
+com.spamblocker.app-mergeDebugResources-4 /workspaces/spam-blocker-v3/app/build/intermediates/incremental/debug/mergeDebugResources/stripped.dir
+com.spamblocker.app-merged_res-5 /workspaces/spam-blocker-v3/app/build/intermediates/merged_res/debug
+com.spamblocker.app-debug-6 /workspaces/spam-blocker-v3/app/src/debug/res
+com.spamblocker.app-main-7 /workspaces/spam-blocker-v3/app/src/main/res
